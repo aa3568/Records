@@ -1,20 +1,23 @@
-<!doctype html>
-<html lang="ar"> 
- <head> 
-  <meta charset="UTF-8"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <title>تسجيل الصوت وتحويله إلى نص</title> 
-  <link rel="stylesheet" href="style.css"> 
- </head> 
- <body> 
-  <div class="container"> 
-   <h1>تحويل الصوت إلى نص</h1> 
-   <div class="controls"> <button id="record-btn" class="btn">🎙️ ابدأ التسجيل</button> <button id="stop-btn" class="btn" disabled>⏹️ أوقف التسجيل</button> 
-   </div> 
-   <div class="transcript-section"> 
-    <h2>النص المحول:</h2> <textarea id="transcript" placeholder="سيظهر النص هنا..." rows="6"></textarea> 
-   </div> 
-  </div> 
-  <script src="script.js"></script> 
- </body>
-</html></body></html>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحويل الصوت إلى نص</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>تحويل الصوت إلى نص</h1>
+        <div class="controls">
+            <button id="record-btn" class="btn">🎙️ ابدأ التحدث</button>
+            <button id="stop-btn" class="btn" disabled>⏹️ أوقف التحدث</button>
+        </div>
+        <div class="transcript-section">
+            <h2>النص المحول:</h2>
+            <textarea id="transcript" placeholder="سيظهر النص هنا..." rows="6" disabled></textarea>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
