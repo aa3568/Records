@@ -15,18 +15,22 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     recognition.continuous = true;  // يسمح بالاستمرار في التسجيل
     recognition.interimResults = true;  // لعرض النص أثناء الحديث
 
-    let lastTranscript = '';  // لتخزين النص الأخير
+    let lastTranscript = '';  // لتخزين النص النهائي
 
     recognition.onresult = (event) => {
         let transcript = '';
         for (let i = event.resultIndex; i < event.results.length; i++) {
-            transcript += event.results[i][0].transcript + ' '; // إضافة نص جديد مع مساحة
+            const result = event.results[i][0].transcript.trim();
+            if (result) {
+                transcript += result + ' '; // إضافة نص جديد مع مساحة
+            }
         }
-        // تحقق مما إذا كان النص الجديد مختلفًا عن النص الأخير
-        if (transcript !== lastTranscript) {
-            lastTranscript = transcript;  // تحديث النص الأخير
+        
+        // التحقق من عدم تكرار النص
+        if (lastTranscript !== transcript.trim()) {
+            lastTranscript = transcript.trim();  // تحديث النص الأخير
             // إضافة النص الجديد إلى النص الموجود بدلاً من استبداله
-            transcriptTextArea.value += transcript;
+            transcriptTextArea.value += lastTranscript + ' ';
         }
     };
 
