@@ -3,6 +3,7 @@ const recordBtn = document.getElementById('record-btn');
 const stopBtn = document.getElementById('stop-btn');
 const transcriptTextArea = document.getElementById('transcript');
 let recognition;
+let isRecording = false;  // حالة التسجيل
 
 // تحقق من دعم المتصفح لواجهات API المطلوبة
 if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
@@ -24,8 +25,21 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
         console.error("حدث خطأ:", event.error);
     };
 
+    recognition.onend = () => {
+        // عندما يتوقف التعرف عن العمل، تحقق مما إذا كنا لا نزال في حالة التسجيل
+        if (isRecording) {
+            // إعادة بدء التسجيل
+            recognition.start();
+        } else {
+            // إعادة تمكين الأزرار
+            recordBtn.disabled = false;
+            stopBtn.disabled = true;
+        }
+    };
+
     // البدء بالتسجيل الصوتي وتحويله إلى نص
     recordBtn.addEventListener('click', () => {
+        isRecording = true;  // تحديد أن التسجيل جارٍ
         recognition.start();
         recordBtn.disabled = true;
         stopBtn.disabled = false;
@@ -33,9 +47,8 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
 
     // إيقاف التحدث
     stopBtn.addEventListener('click', () => {
+        isRecording = false;  // تحديد أن التسجيل توقف
         recognition.stop();
-        recordBtn.disabled = false;
-        stopBtn.disabled = true;
     });
 } else {
     alert('المتصفح الذي تستخدمه لا يدعم ميزة التعرف على الصوت.');
