@@ -37,7 +37,7 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     recognition.onend = () => {
         // عندما يتوقف التعرف عن العمل، تحقق مما إذا كنا لا نزال في حالة التسجيل
         if (isRecording) {
-            // إعادة بدء التسجيل
+            // إعادة بدء التسجيل بدون صوت مزعج
             recognition.start();
         } else {
             // إعادة تمكين الأزرار
@@ -48,10 +48,12 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
 
     // البدء بالتسجيل الصوتي وتحويله إلى نص
     recordBtn.addEventListener('click', () => {
-        isRecording = true;  // تحديد أن التسجيل جارٍ
-        recognition.start();
-        recordBtn.disabled = true;
-        stopBtn.disabled = false;
+        if (!isRecording) {
+            isRecording = true;  // تحديد أن التسجيل جارٍ
+            recognition.start();
+            recordBtn.disabled = true;
+            stopBtn.disabled = false;
+        }
     });
 
     // إيقاف التحدث
