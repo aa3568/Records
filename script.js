@@ -9,8 +9,8 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     recognition = new SpeechRecognition();
     recognition.lang = 'ar-SA'; // اللغة العربية
-    recognition.continuous = true;
-    recognition.interimResults = true;  // حتى يظهر النص أثناء التحدث مباشرةً
+    recognition.continuous = true;  // يسمح بالاستمرار في التسجيل
+    recognition.interimResults = true;  // لعرض النص أثناء الحديث
 
     recognition.onresult = (event) => {
         let transcript = '';
