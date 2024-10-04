@@ -34,12 +34,10 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
         console.error("حدث خطأ:", event.error);
     };
 
+    // عند انتهاء التعرف على الصوت، لا توقف التسجيل
     recognition.onend = () => {
-        // لا تعيد تشغيل المايكروفون عند انتهاء التسجيل
-        // فقط إعادة تمكين الأزرار
         if (isRecording) {
-            recordBtn.disabled = false;
-            stopBtn.disabled = true;
+            recognition.start();  // إعادة بدء التسجيل بدون توقف
         }
     };
 
@@ -56,7 +54,7 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     // إيقاف التحدث
     stopBtn.addEventListener('click', () => {
         isRecording = false;  // تحديد أن التسجيل توقف
-        recognition.stop();
+        recognition.stop();  // إيقاف التعرف
     });
 
     // مسح النص
