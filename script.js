@@ -16,9 +16,10 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     recognition.onresult = (event) => {
         let transcript = '';
         for (let i = event.resultIndex; i < event.results.length; i++) {
-            transcript += event.results[i][0].transcript;
+            transcript += event.results[i][0].transcript + ' '; // إضافة نص جديد مع مساحة
         }
-        transcriptTextArea.value = transcript;
+        // إضافة النص الجديد إلى النص الموجود بدلاً من استبداله
+        transcriptTextArea.value += transcript;
     };
 
     recognition.onerror = (event) => {
