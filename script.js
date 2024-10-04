@@ -1,58 +1,52 @@
-// تحويل الصوت إلى نص باستخدام Web Speech API
-const recordBtn = document.getElementById('record-btn');
-const stopBtn = document.getElementById('stop-btn');
-const transcriptTextArea = document.getElementById('transcript');
-let recognition, mediaRecorder, audioChunks = [];
+/* إعدادات عامة */
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #1e1e1e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
 
-// تحقق من دعم المتصفح لواجهات API المطلوبة
-if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SpeechRecognition();
-    recognition.lang = 'ar-SA'; // اللغة العربية
-    recognition.continuous = true;
-    recognition.interimResults = false;
+.container {
+    background-color: #2c2c2c;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    color: #fff;
+}
 
-    recognition.onresult = (event) => {
-        let transcript = '';
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-            transcript += event.results[i][0].transcript;
-        }
-        transcriptTextArea.value = transcript;
-    };
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #f1f1f1;
+}
 
-    // البدء بالتسجيل الصوتي
-    recordBtn.addEventListener('click', async () => {
-        audioChunks = [];
-        recognition.start();
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        
-        mediaRecorder.ondataavailable = (event) => {
-            audioChunks.push(event.data);
-        };
+.controls {
+    margin-bottom: 20px;
+}
 
-        mediaRecorder.start();
-        recordBtn.disabled = true;
-        stopBtn.disabled = false;
-    });
+.btn {
+    background-color: #ff9800;
+    border: none;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 50px;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 10px;
+    transition: background-color 0.3s ease;
+}
 
-    // إيقاف التسجيل الصوتي
-    stopBtn.addEventListener('click', () => {
-        recognition.stop();
-        mediaRecorder.stop();
+.btn:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+}
 
-        mediaRecorder.onstop = () => {
-            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-            const audioUrl = URL.createObjectURL(audioBlob);
-            const link = document.createElement('a');
-            link.href = audioUrl;
-            link.download = 'recorded_audio.wav';
-            link.click();
-        };
-
-        recordBtn.disabled = false;
-        stopBtn.disabled = true;
-    });
-} else {
-    alert('المتصفح الذي تستخدمه لا يدعم ميزة التعرف على الصوت.');
+.btn:hover {
+    background-color: #e67e22;
 }
