@@ -35,12 +35,9 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     };
 
     recognition.onend = () => {
-        // عندما يتوقف التعرف عن العمل، تحقق مما إذا كنا لا نزال في حالة التسجيل
+        // لا تعيد تشغيل المايكروفون عند انتهاء التسجيل
+        // فقط إعادة تمكين الأزرار
         if (isRecording) {
-            // إعادة بدء التسجيل بدون صوت مزعج
-            recognition.start();
-        } else {
-            // إعادة تمكين الأزرار
             recordBtn.disabled = false;
             stopBtn.disabled = true;
         }
